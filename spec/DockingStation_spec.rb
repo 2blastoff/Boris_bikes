@@ -1,19 +1,21 @@
 require 'DockingStation.rb'
 
 describe DockingStation do
+	
+	let(:bike) {double :bike}
+	
+	
 it {is_expected.to respond_to :release_bike}
 
 it { is_expected.to respond_to(:dock).with(1).argument }
 
 it 'docks something' do
-	bike = double(:bike)
 	expect(subject.dock(bike)).to include(bike)
 end
 
 it 'raises an error when the docking station is full' do
-	bike = double(:bike)
 	subject.capacity.times { subject.dock(bike) }
-	expect { subject.dock(bike) }.to raise_error 'Docking station full'
+	expect { subject.dock(:bike) }.to raise_error 'Docking station full'
 end
 
 it 'allows a user to set a capacity variable when a Docking Station is instantiated' do
@@ -26,28 +28,19 @@ it 'assigns the default capacity to DEFAULT_CAPACITY when no arguments are passe
 	expect(station.capacity).to eq(DockingStation::DEFAULT_CAPACITY)
 end
 
-it 'allows a user to report a bike as broken' do
-	station = DockingStation.new
-	expect((station.dock(double(:bike), false).pop).bike_working).to eq false
-end
 
-
-describe '#release_bike' do
 it 'raises an error when there are no bikes available' do
-	expect{ subject.release_bike }.to raise_error 'No bikes available'
+	expect{ subject.release_bike }.to raise_error
 end
+
 
 it 'does not release bikes which are broken' do
-	station = DockingStation.new
-	station.dock(double(:bike), true)
-	station.dock(double(:bike), false)
-	expect((station.release_bike).bike_working).to eq true
+	allow(bike).to receive(:working?).and_return(false)
+	subject.dock(:bike)
+	expect{subject.release_bike(:bike)}.to raise_error 
 end
 
 
 
-
-
-end
 
 end
