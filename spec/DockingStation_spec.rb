@@ -41,6 +41,4 @@ it 'does not release bikes which are broken' do
 end
 
 
-
-
 end

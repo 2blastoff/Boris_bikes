@@ -9,7 +9,7 @@ class Bike
 	end
 	
 	def is_fixed
-		@working = true
+		@working = true	
 	end
 	
 	def working?

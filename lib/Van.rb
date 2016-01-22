@@ -1,12 +1,14 @@
+require './lib/DockingStation.rb'
+
 class Van
     
-    attr_reader :van
+    attr_reader :bikes_in_van
     
     def initialize
-        @van = []
+        @bikes_in_van = []
     end
     
-    def take(dockstation)
-		dockstation.bikes.each {|bike| @van << bike unless bike.working?}
+    def take(n)
+		n.bikes.select {|x| @bikes_in_van << x unless x.working?}
 	end
 end
